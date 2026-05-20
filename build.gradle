@@ -1,10 +1,16 @@
 buildscript {
     ext.kotlin_version = '1.9.0'
-    repositories { google(); mavenCentral() }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
-allprojects { repositories { google(); mavenCentral() } }
-task clean(type: Delete) { delete rootProject.buildDir }
+
+// Il blocco allprojects ora è vuoto o contiene solo configurazioni non relative ai repository
+allprojects {
+    // Rimosso il blocco repositories che causava l'errore
+}
+
+task clean(type: Delete) { 
+    delete rootProject.buildDir 
+}
