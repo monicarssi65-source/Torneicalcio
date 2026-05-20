@@ -1,14 +1,21 @@
 buildscript {
     ext.kotlin_version = '1.9.0'
+    
+    // I repository qui dentro servono SOLO a scaricare il plugin Gradle e Kotlin
+    repositories { 
+        google() 
+        mavenCentral() 
+    }
+    
     dependencies {
         classpath 'com.android.tools.build:gradle:8.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
-// Il blocco allprojects ora è vuoto o contiene solo configurazioni non relative ai repository
+// Allprojects rimane privo di repository per rispettare settings.gradle
 allprojects {
-    // Rimosso il blocco repositories che causava l'errore
+    // Lascia vuoto o inserisci altre configurazioni non correlate ai repository
 }
 
 task clean(type: Delete) { 
