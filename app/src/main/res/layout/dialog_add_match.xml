@@ -1,0 +1,20 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+        <TextView android:id="@+id/dialogTitle" android:text="Nuova Partita" android:textStyle="bold" android:layout_marginBottom="8dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <EditText android:id="@+id/editTextHomeTeam" android:hint="Squadra Casa" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <EditText android:id="@+id/editTextAwayTeam" android:hint="Squadra Ospite" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <EditText android:id="@+id/editTextField" android:hint="Campo" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <Button android:id="@+id/btnSelectDate" android:text="📅 Data" android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnSelectTime" android:text=" Ora" android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <EditText android:id="@+id/editTextHomeScore" android:hint="Gol Casa" android:inputType="number" android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content"/>
+            <EditText android:id="@+id/editTextAwayScore" android:hint="Gol Ospite" android:inputType="number" android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp">
+            <Button android:id="@+id/btnCancel" android:text="Annulla" android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnSave" android:text="Salva" android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
