@@ -1,7 +1,0 @@
-<resources>
-    <style name="Theme.App" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/red</item>
-        <item name="colorSecondary">@color/yellow</item>
-        <item name="android:windowBackground">@drawable/bg_grad</item>
-    </style>
-</resources>
