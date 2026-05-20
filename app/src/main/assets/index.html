@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Tornei Calcio Giovanili</title>
+    <style>
+        :root {
+            --red: #C62828;
+            --red-dark: #8B1A1A;
+            --yellow: #F9A825;
+            --yellow-light: #FFD54F;
+            --yellow-bg: #FFF9C4;
+            --white: #FFFFFF;
+            --gray-50: #FAFAFA;
+            --gray-100: #F5F5F5;
+            --gray-200: #EEEEEE;
+            --gray-300: #E0E0E0;
+            --gray-600: #757575;
+            --gray-800: #424242;
+            --gray-900: #212121;
+            --shadow: 0 3px 10px rgba(0,0,0,0.12);
+            --shadow-lg: 0 6px 20px rgba(0,0,0,0.18);
+            --radius: 14px;
+            --radius-sm: 10px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #FFF9C4 0%, #FFE082 50%, #FFCA28 100%);
+            color: var(--gray-900);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(135deg, #B71C1C 0%, #E53935 50%, #C62828 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border-bottom: 3px solid var(--yellow);
+        }
+        .header-logo { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+        .header-logo .icon { font-size: 2rem; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3)); }
+        .header h1 { font-size: 1.3rem; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .header-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+            transform: translateY(0);
+        }
+        .btn:active { transform: translateY(2px); box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+        .btn-primary { background: linear-gradient(135deg, var(--yellow), #F9A825); color: var(--gray-900); border: 2px solid #E65100; }
+        .btn-secondary { background: white; color: var(--red); border: 2px solid var(--red); }
+        .btn-danger { background: #dc3545; color: white; border: 2px solid #a71d2a; }
+        .btn-success { background: #28a745; color: white; border: 2px solid #1e7e34; }
+        .btn-outline { background: transparent; color: white; border: 2px solid white; }
+        .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+        .btn-lg { padding: 14px 24px; font-size: 1rem; }
+        .btn-block { display: block; width: 100%; text-align: center; justify-content: center; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 1.5rem 1rem; }
+        .card {
+            background: linear-gradient(145deg, #FFFFFF, #FFF9C4);
+            border-radius: var(--radius);
+            box-shadow: 4px 4px 12px rgba(198, 40, 40, 0.2), -2px -2px 8px rgba(255, 255, 255, 0.8);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 2px solid #FFD54F;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--red);
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .card-title { font-size: 1.2rem; font-weight: 700; color: var(--red-dark); }
+        .grid { display: grid; gap: 1rem; }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.4rem; font-weight: 700; font-size: 0.9rem; color: var(--red-dark); }
+        .form-control {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #FFD54F;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            background: white;
+        }
+        .form-control:focus { outline: none; border-color: var(--red); box-shadow: 0 0 0 4px rgba(198, 40, 40, 0.1); }
+        select.form-control { cursor: pointer; }
+        .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: var(--radius-sm); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th { background: linear-gradient(135deg, var(--red), var(--red-dark)); color: white; padding: 12px 14px; text-align: left; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        td { padding: 10px 14px; border-bottom: 2px solid #FFD54F; background: rgba(255,255,255,0.8); }
+        tr:hover td { background: #FFF9C4; }
+        .badge { display: inline-block; padding: 5px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px; }
+        .badge-yellow { background: var(--yellow-light); color: var(--gray-900); border: 1px solid #F9A825; }
+        .badge-red { background: var(--red); color: white; }
+        .badge-green { background: #c8e6c9; color: #2e7d32; border: 1px solid #4caf50; }
+        .tabs { display: flex; gap: 4px; border-bottom: 3px solid var(--red); margin-bottom: 1.5rem; overflow-x: auto; padding-bottom: 2px; }
+        .tab {
+            padding: 10px 18px;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--gray-600);
+            border-bottom: 3px solid transparent;
+            margin-bottom: -3px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            background: rgba(255,255,255,0.5);
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            font-size: 0.85rem;
+            border-radius: 8px 8px 0 0;
+        }
+        .tab.active { color: white; background: linear-gradient(135deg, var(--red), var(--red-dark)); border-bottom: 3px solid var(--yellow); }
+        .tab:hover:not(.active) { color: var(--red); background: rgba(198, 40, 40, 0.05); }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: linear-gradient(145deg, #FFFFFF, #FFF9C4);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            max-width: 520px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 3px solid var(--red);
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 2px solid var(--red); }
+        .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--gray-600); padding: 4px 8px; border-radius: 50%; transition: all 0.2s; }
+        .modal-close:hover { background: #ffcdd2; color: var(--red); }
+        .match-card {
+            background: linear-gradient(145deg, #FFFFFF, #FFF9C4);
+            border-radius: var(--radius-sm);
+            padding: 0.8rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            border: 2px solid var(--yellow);
+            margin-bottom: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        .match-team { font-weight: 700; flex: 1; text-align: center; font-size: 0.9rem; }
+        .match-score { font-size: 1.3rem; font-weight: 800; color: var(--red); background: #FFF9C4; padding: 2px 10px; border-radius: 6px; min-width: 60px; text-align: center; }
+        .match-info { font-size: 0.7rem; color: var(--gray-600); text-align: center; margin-top: 2px; }
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 14px 24px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            z-index: 3000;
+            font-size: 0.9rem;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .toast-success { background: linear-gradient(135deg, #28a745, #20c997); }
+        .toast-error { background: linear-gradient(135deg, #dc3545, #e74c3c); }
+        .toast-info { background: linear-gradient(135deg, #0d6efd, #3498db); }
+        .text-center { text-align: center; }
+        .mt-1 { margin-top: 0.8rem; }
+        .mb-1 { margin-bottom: 0.8rem; }
+        .hidden { display: none !important; }
+        .color-dot { width: 18px; height: 18px; border-radius: 50%; display: inline-block; vertical-align: middle; margin-left: 8px; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .girone-header {
+            background: linear-gradient(135deg, var(--red), var(--red-dark));
+            padding: 12px 16px;
+            border-radius: 10px;
+            color: white;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .field-badge { background: #4CAF50; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; }
+        .time-badge { background: var(--red); color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; }
+        @media (max-width: 600px) {
+            .header { padding: 0.8rem 1rem; }
+            .header h1 { font-size: 1rem; }
+            .btn { padding: 8px 14px; font-size: 0.8rem; }
+            .card { padding: 1rem; }
+            th, td { padding: 8px 10px; font-size: 0.75rem; }
+            .match-team { font-size: 0.8rem; }
+            .match-score { font-size: 1.1rem; min-width: 50px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header" id="mainHeader">
+        <div class="header-logo" onclick="goHome()">
+            <span class="icon">⚽</span>
+            <h1>Tornei Calcio Giovanili</h1>
+        </div>
+        <div class="header-actions" id="headerActions"></div>
+    </header>
+    <div class="container" id="mainContainer"></div>
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modalContent"></div>
+    </div>
+    <div id="toastContainer"></div>
+
+    <script>
+    // =====================================================
+    // LAYER DATABASE — sostituisce Supabase con SQLite Android
+    // Comunica con DatabaseBridge.java tramite window.AndroidDB
+    // =====================================================
+
+    const DB = {
+        // Esegui SELECT, ritorna array di oggetti
+        query: function(sql, params) {
+            try {
+                const paramsJson = JSON.stringify(params || []);
+                const result = window.AndroidDB.query(sql, paramsJson);
+                return JSON.parse(result);
+            } catch(e) {
+                console.error('DB.query error:', e, sql);
+                return [];
+            }
+        },
+        // Esegui INSERT/UPDATE/DELETE
+        execute: function(sql, params) {
+            try {
+                const paramsJson = JSON.stringify(params || []);
+                const result = window.AndroidDB.execute(sql, paramsJson);
+                return JSON.parse(result);
+            } catch(e) {
+                console.error('DB.execute error:', e, sql);
+                return { ok: false, error: e.message };
+            }
+        },
+        // Nuovo ID univoco
+        newId: function() {
+            return window.AndroidDB.generateId();
+        }
+    };
+
+    // =====================================================
+    // TOAST
+    // =====================================================
+    function toast(msg, type) {
+        type = type || 'info';
+        const c = document.getElementById('toastContainer');
+        const t = document.createElement('div');
+        t.className = 'toast toast-' + type;
+        t.textContent = msg;
+        c.appendChild(t);
+        setTimeout(function(){ t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; setTimeout(function(){ t.remove(); }, 300); }, 3000);
+    }
+
+    // =====================================================
+    // MODAL
+    // =====================================================
+    function openModal(html) {
+        document.getElementById('modalContent').innerHTML = html;
+        document.getElementById('modalOverlay').classList.add('active');
+    }
+    function closeModal() {
+        document.getElementById('modalOverlay').classList.remove('active');
+    }
+    document.getElementById('modalOverlay').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+    });
+
+    // =====================================================
+    // AUTENTICAZIONE
+    // =====================================================
+    function goHome() {
+        if (sessionStorage.getItem('admin_logged') === 'true') {
+            showDashboard();
+        } else {
+            showLoginScreen();
+        }
+    }
+
+    function showLoginScreen() {
+        document.getElementById('headerActions').innerHTML = '';
+        document.getElementById('mainContainer').innerHTML = `
+            <div class="card" style="max-width:420px;margin:2rem auto;text-align:center">
+                <div style="font-size:5rem;margin-bottom:1rem">⚽</div>
+                <h2 style="color:var(--red-dark);margin-bottom:0.5rem">Area Amministrazione</h2>
+                <p style="color:var(--gray-600);margin-bottom:1.5rem">Gestisci i tuoi tornei di calcio giovanili</p>
+                <div class="form-group">
+                    <label style="color:var(--red-dark)">🔑 Password</label>
+                    <input type="password" class="form-control" id="loginPassword" placeholder="Inserisci la password" style="text-align:center;font-size:1.1rem">
+                </div>
+                <button class="btn btn-primary btn-lg btn-block" onclick="doLogin()">🔓 Accedi</button>
+                <p style="margin-top:1.5rem;font-size:0.75rem;color:var(--gray-600)">Password predefinita: torneo2025</p>
+            </div>`;
+        document.getElementById('loginPassword').addEventListener('keyup', function(e){
+            if (e.key === 'Enter') doLogin();
+        });
+    }
+
+    function doLogin() {
+        const password = document.getElementById('loginPassword').value;
+        const rows = DB.query('SELECT admin_password FROM app_config WHERE id=1', []);
+        const storedPwd = rows.length > 0 ? rows[0].admin_password : 'torneo2025';
+        if (password === storedPwd) {
+            sessionStorage.setItem('admin_logged', 'true');
+            toast('✅ Accesso consentito!', 'success');
+            showDashboard();
+        } else {
+            toast('❌ Password errata!', 'error');
+            document.getElementById('loginPassword').value = '';
+        }
+    }
+
+    function doLogout() {
+        sessionStorage.removeItem('admin_logged');
+        toast('👋 Logout effettuato', 'info');
+        showLoginScreen();
+    }
+
+    function showDashboard() {
+        const actions = document.getElementById('headerActions');
+        actions.innerHTML = `
+            <button class="btn btn-primary" onclick="showCreateTorneo()">➕ Nuovo Torneo</button>
+            <button class="btn btn-outline btn-sm" onclick="showChangePassword()">🔐 Password</button>
+            <button class="btn btn-outline btn-sm" onclick="doLogout()">🚪 Esci</button>`;
+        loadDashboard();
+    }
+
+    function showChangePassword() {
+        openModal(`
+            <div class="modal-header"><h3>🔐 Cambia Password Admin</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+            <div class="form-group"><label>Password Attuale</label><input type="password" class="form-control" id="oldPwd"></div>
+            <div class="form-group"><label>Nuova Password</label><input type="password" class="form-control" id="newPwd" minlength="4"></div>
+            <button class="btn btn-primary btn-block" onclick="changePassword()">💾 Aggiorna Password</button>`);
+    }
+
+    function changePassword() {
+        const oldPwd = document.getElementById('oldPwd').value;
+        const newPwd = document.getElementById('newPwd').value;
+        const rows = DB.query('SELECT admin_password FROM app_config WHERE id=1', []);
+        const storedPwd = rows.length > 0 ? rows[0].admin_password : 'torneo2025';
+        if (oldPwd === storedPwd) {
+            DB.execute('UPDATE app_config SET admin_password=? WHERE id=1', [newPwd]);
+            closeModal();
+            toast('✅ Password aggiornata!', 'success');
+        } else {
+            toast('❌ Password attuale errata', 'error');
+        }
+    }
+
+    // =====================================================
+    // DASHBOARD
+    // =====================================================
+    function loadDashboard() {
+        const c = document.getElementById('mainContainer');
+        try {
+            const tornei = DB.query('SELECT * FROM tornei ORDER BY created_at DESC', []);
+            if (!tornei || tornei.length === 0) {
+                c.innerHTML = `<div class="card text-center" style="padding:3rem 1rem"><div style="font-size:5rem">⚽</div><h2 style="color:var(--red-dark)">Benvenuto!</h2><p style="color:var(--gray-600);margin:1rem 0;font-size:1.1rem">Crea il tuo primo torneo di calcio giovanile.</p><button class="btn btn-primary btn-lg" onclick="showCreateTorneo()">🏆 Crea Torneo</button></div>`;
+                return;
+            }
+            let h = '<div class="card"><div class="card-header"><div class="card-title">🏆 I Miei Tornei</div><span class="badge badge-red">'+tornei.length+'</span></div><div class="grid grid-3">';
+            tornei.forEach(function(t) {
+                h += '<div class="card" style="border-left:5px solid var(--red)"><h3 style="color:var(--red-dark)">🏟️ '+esc(t.nome)+'</h3><p style="color:var(--gray-600);font-size:0.85rem">🏢 '+esc(t.societa)+'</p><p style="color:var(--gray-600);font-size:0.75rem">📅 '+t.created_at.substring(0,10)+'</p><div style="display:flex;flex-direction:column;gap:8px;margin-top:1rem">';
+                h += '<button class="btn btn-primary btn-sm btn-block" onclick="manageTorneo(\''+t.id+'\')">⚙️ Gestisci</button>';
+                h += '<button class="btn btn-danger btn-sm btn-block" onclick="deleteTorneo(\''+t.id+'\')">🗑️ Elimina</button>';
+                h += '</div></div>';
+            });
+            h += '</div></div>';
+            c.innerHTML = h;
+        } catch(e) {
+            c.innerHTML = '<div class="card text-center"><p>❌ Errore: '+esc(e.message)+'</p></div>';
+        }
+    }
+
+    // =====================================================
+    // CREAZIONE TORNEO
+    // =====================================================
+    function showCreateTorneo() {
+        document.getElementById('mainContainer').innerHTML = `
+            <div class="card" style="max-width:600px;margin:0 auto">
+                <div class="card-header"><div class="card-title">🏆 Nuovo Torneo</div></div>
+                <div class="form-group"><label>🏟️ Nome Torneo *</label><input type="text" class="form-control" id="nomeTorneo" placeholder="es. Torneo Primavera 2026"></div>
+                <div class="form-group"><label>🏢 Società *</label><input type="text" class="form-control" id="societaTorneo" placeholder="es. ASD Giovani"></div>
+                <div class="form-group"><label>👥 Numero Gironi</label><input type="number" class="form-control" id="numGironi" value="3" min="1" max="10"></div>
+                <div class="form-group"><label>🏷️ Nomi Gironi (separati da virgola)</label><input type="text" class="form-control" id="nomiGironi" placeholder="es. Blu, Rossi, Verdi (vuoto = automatico)"></div>
+                <div class="form-group"><label>👤 Squadre per Girone (1-8)</label><input type="number" class="form-control" id="numSquadreGirone" value="3" min="1" max="8"></div>
+                <div class="form-group"><label>🏅 Squadre che passano</label><select class="form-control" id="squadreQualificate"><option value="0">Nessuna (solo gironi)</option><option value="1" selected>1 per girone</option><option value="2">2 per girone</option><option value="4">4 per girone</option></select></div>
+                <div class="form-group"><label>🏟️ Campi da gioco (separati da virgola)</label><input type="text" class="form-control" id="campiTorneo" placeholder="es. Campo 1, Campo 2, Campo 3"></div>
+                <button class="btn btn-primary btn-lg btn-block" onclick="createTorneo()">🚀 Crea Torneo</button>
+            </div>`;
+    }
+
+    function createTorneo() {
+        const nome = document.getElementById('nomeTorneo').value.trim();
+        const societa = document.getElementById('societaTorneo').value.trim();
+        const ng = parseInt(document.getElementById('numGironi').value);
+        const nsg = parseInt(document.getElementById('numSquadreGirone').value);
+        const sq = parseInt(document.getElementById('squadreQualificate').value);
+        const nomiRaw = document.getElementById('nomiGironi').value.trim();
+        const campiRaw = document.getElementById('campiTorneo').value.trim();
+        if (!nome || !societa) { toast('Compila i campi obbligatori', 'error'); return; }
+
+        const torneoId = DB.newId();
+        const token = DB.newId();
+        const now = new Date().toISOString().replace('T', ' ').substring(0, 19);
+
+        const r = DB.execute(
+            'INSERT INTO tornei (id, nome, societa, num_gironi, num_squadre_girone, squadre_qualificate, token_pubblico, created_at) VALUES (?,?,?,?,?,?,?,?)',
+            [torneoId, nome, societa, ng, nsg, sq, token, now]
+        );
+        if (!r.ok) { toast('Errore: ' + r.error, 'error'); return; }
+
+        let nomi = nomiRaw ? nomiRaw.split(',').map(x => x.trim()).filter(x => x) : [];
+        for (let i = 0; i < ng; i++) {
+            const gironeId = DB.newId();
+            DB.execute('INSERT INTO gironi (id, torneo_id, nome, created_at) VALUES (?,?,?,?)',
+                [gironeId, torneoId, nomi[i] || 'Girone ' + String.fromCharCode(65 + i), now]);
+        }
+        if (campiRaw) {
+            campiRaw.split(',').map(x => x.trim()).filter(x => x).forEach(function(c) {
+                DB.execute('INSERT INTO campi (id, torneo_id, nome) VALUES (?,?,?)', [DB.newId(), torneoId, c]);
+            });
+        }
+        toast('Torneo creato! 🎉', 'success');
+        manageTorneo(torneoId);
+    }
+
+    // =====================================================
+    // GESTIONE TORNEO
+    // =====================================================
+    function manageTorneo(id) {
+        const rows = DB.query('SELECT * FROM tornei WHERE id=?', [id]);
+        if (!rows.length) { toast('Torneo non trovato', 'error'); return; }
+        const t = rows[0];
+        const c = document.getElementById('mainContainer');
+        c.innerHTML = `
+            <div class="card">
+                <div class="card-header"><div class="card-title">🏟️ ${esc(t.nome)} - ${esc(t.societa)}</div><span class="badge badge-green">${t.num_gironi} gironi</span></div>
+                <div class="tabs">
+                    <button class="tab active" id="tabCampi" onclick="switchTab('campi','${id}')">🏟️ Campi</button>
+                    <button class="tab" id="tabSquadre" onclick="switchTab('squadre','${id}')">👥 Squadre</button>
+                    <button class="tab" id="tabGironi" onclick="switchTab('gironi','${id}')">📋 Gironi</button>
+                    <button class="tab" id="tabPartite" onclick="switchTab('partite','${id}')">⚽ Partite</button>
+                    <button class="tab" id="tabFinali" onclick="switchTab('finali','${id}')">🏆 Finali</button>
+                </div>
+                <div id="tabContent"></div>
+            </div>`;
+        loadCampiTab(id);
+    }
+
+    function switchTab(tab, torneoId) {
+        ['tabCampi','tabSquadre','tabGironi','tabPartite','tabFinali'].forEach(function(tid) {
+            const el = document.getElementById(tid); if (el) el.classList.remove('active');
+        });
+        const activeEl = document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1));
+        if (activeEl) activeEl.classList.add('active');
+        if (tab === 'campi') loadCampiTab(torneoId);
+        if (tab === 'squadre') loadSquadreTab(torneoId);
+        if (tab === 'gironi') loadGironiTab(torneoId);
+        if (tab === 'partite') loadPartiteTab(torneoId);
+        if (tab === 'finali') loadFinaliTab(torneoId);
+    }
+
+    // =====================================================
+    // TAB CAMPI
+    // =====================================================
+    function loadCampiTab(torneoId) {
+        const tc = document.getElementById('tabContent');
+        const campi = DB.query('SELECT * FROM campi WHERE torneo_id=? ORDER BY nome', [torneoId]);
+        let h = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><h3>🏟️ Campi da Gioco</h3><button class="btn btn-primary btn-sm" onclick="showAddCampo(\''+torneoId+'\')">➕ Aggiungi Campo</button></div>';
+        if (!campi.length) {
+            h += '<div class="card text-center" style="padding:2rem"><p style="color:var(--gray-600)">Nessun campo configurato.</p></div>';
+        } else {
+            h += '<div class="grid grid-3">';
+            campi.forEach(function(campo) {
+                h += '<div class="card" style="text-align:center;padding:1rem;border-left:5px solid #4CAF50"><h3>🏟️ '+esc(campo.nome)+'</h3><button class="btn btn-danger btn-sm mt-1" onclick="deleteCampo(\''+campo.id+'\',\''+torneoId+'\')">🗑️ Rimuovi</button></div>';
+            });
+            h += '</div>';
+        }
+        tc.innerHTML = h;
+    }
+
+    function showAddCampo(torneoId) {
+        openModal('<div class="modal-header"><h3>🏟️ Nuovo Campo</h3><button class="modal-close" onclick="closeModal()">✕</button></div><div class="form-group"><label>Nome Campo *</label><input type="text" class="form-control" id="nomeCampo" placeholder="es. Campo 1"></div><button class="btn btn-primary btn-block" onclick="addCampo(\''+torneoId+'\')">💾 Salva</button>');
+    }
+
+    function addCampo(torneoId) {
+        const nome = document.getElementById('nomeCampo').value.trim();
+        if (!nome) { toast('Inserisci un nome', 'error'); return; }
+        DB.execute('INSERT INTO campi (id, torneo_id, nome) VALUES (?,?,?)', [DB.newId(), torneoId, nome]);
+        closeModal(); toast('Campo aggiunto!', 'success'); loadCampiTab(torneoId);
+    }
+
+    function deleteCampo(id, torneoId) {
+        if (!confirm('Eliminare questo campo?')) return;
+        DB.execute('DELETE FROM campi WHERE id=?', [id]);
+        toast('Campo eliminato', 'info'); loadCampiTab(torneoId);
+    }
+
+    // =====================================================
+    // TAB SQUADRE
+    // =====================================================
+    function loadSquadreTab(torneoId) {
+        const tc = document.getElementById('tabContent');
+        const squadre = DB.query('SELECT * FROM squadre WHERE torneo_id=? ORDER BY nome', [torneoId]);
+        let h = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><h3>👥 Squadre ('+(squadre.length)+')</h3><button class="btn btn-primary btn-sm" onclick="showAddSquadra(\''+torneoId+'\')">➕ Aggiungi</button></div>';
+        if (!squadre.length) { h += '<p style="color:var(--gray-600)">Nessuna squadra.</p>'; }
+        else {
+            h += '<div class="grid grid-2">';
+            squadre.forEach(function(s) {
+                h += '<div class="card" style="padding:0.8rem;border-left:5px solid '+(s.colore||'#C62828')+'"><div style="display:flex;justify-content:space-between;align-items:center"><div><strong>'+esc(s.nome)+'</strong><span class="color-dot" style="background:'+(s.colore||'#C62828')+'"></span></div><div style="display:flex;gap:6px"><button class="btn btn-secondary btn-sm" onclick="editSquadra(\''+s.id+'\',\''+torneoId+'\')">✏️</button><button class="btn btn-danger btn-sm" onclick="deleteSquadra(\''+s.id+'\',\''+torneoId+'\')">🗑️</button></div></div></div>';
+            });
+            h += '</div>';
+        }
+        tc.innerHTML = h;
+    }
+
+    function showAddSquadra(torneoId) {
+        openModal('<div class="modal-header"><h3>➕ Nuova Squadra</h3><button class="modal-close" onclick="closeModal()">✕</button></div><div class="form-group"><label>Nome *</label><input type="text" class="form-control" id="nomeSquadra"></div><div class="form-group"><label>Colore</label><input type="color" class="form-control" id="coloreSquadra" value="#C62828" style="height:45px"></div><button class="btn btn-primary btn-block" onclick="addSquadra(\''+torneoId+'\')">💾 Salva</button>');
+    }
+
+    function addSquadra(torneoId) {
+        const nome = document.getElementById('nomeSquadra').value.trim();
+        if (!nome) { toast('Inserisci un nome', 'error'); return; }
+        DB.execute('INSERT INTO squadre (id, torneo_id, nome, colore) VALUES (?,?,?,?)',
+            [DB.newId(), torneoId, nome, document.getElementById('coloreSquadra').value]);
+        closeModal(); toast('Squadra aggiunta!', 'success'); loadSquadreTab(torneoId);
+    }
+
+    function editSquadra(id, torneoId) {
+        const rows = DB.query('SELECT * FROM squadre WHERE id=?', [id]);
+        if (!rows.length) return;
+        const s = rows[0];
+        openModal('<div class="modal-header"><h3>✏️ Modifica Squadra</h3><button class="modal-close" onclick="closeModal()">✕</button></div><div class="form-group"><label>Nome</label><input type="text" class="form-control" id="editNomeSquadra" value="'+esc(s.nome)+'"></div><div class="form-group"><label>Colore</label><input type="color" class="form-control" id="editColoreSquadra" value="'+(s.colore||'#C62828')+'" style="height:45px"></div><button class="btn btn-primary btn-block" onclick="updateSquadra(\''+id+'\',\''+torneoId+'\')">💾 Aggiorna</button>');
+    }
+
+    function updateSquadra(id, torneoId) {
+        const nome = document.getElementById('editNomeSquadra').value.trim();
+        if (!nome) return;
+        DB.execute('UPDATE squadre SET nome=?, colore=? WHERE id=?',
+            [nome, document.getElementById('editColoreSquadra').value, id]);
+        closeModal(); toast('Aggiornata!', 'success'); loadSquadreTab(torneoId);
+    }
+
+    function deleteSquadra(id, torneoId) {
+        if (!confirm('Eliminare questa squadra?')) return;
+        DB.execute('DELETE FROM squadre WHERE id=?', [id]);
+        toast('Eliminata', 'info'); loadSquadreTab(torneoId);
+    }
+
+    // =====================================================
+    // TAB GIRONI
+    // =====================================================
+    function loadGironiTab(torneoId) {
+        const tc = document.getElementById('tabContent');
+        const gironi = DB.query('SELECT * FROM gironi WHERE torneo_id=? ORDER BY created_at', [torneoId]);
+        const squadre = DB.query('SELECT * FROM squadre WHERE torneo_id=? ORDER BY nome', [torneoId]);
+        let h = '<div class="grid grid-2">';
+        gironi.forEach(function(g) {
+            const gs = DB.query('SELECT squadra_id FROM girone_squadre WHERE girone_id=?', [g.id]);
+            const sqGirone = gs.map(function(x) { return squadre.find(function(s){ return s.id === x.squadra_id; }); }).filter(Boolean);
+            h += '<div class="card" style="border-top:5px solid var(--red)">';
+            h += '<div class="girone-header"><h3 style="margin:0;cursor:pointer" onclick="editGironeNome(\''+g.id+'\',\''+g.nome.replace(/'/g,"\\'")+'\\',\''+torneoId+'\')">🏟️ '+esc(g.nome)+' <span style="font-size:0.7rem">✏️</span></h3></div>';
+            h += '<select class="form-control" id="sel_'+g.id+'" style="margin-bottom:6px"><option value="">-- Seleziona squadra --</option>';
+            squadre.forEach(function(s){ h += '<option value="'+s.id+'">'+esc(s.nome)+'</option>'; });
+            h += '</select><button class="btn btn-primary btn-sm btn-block mb-1" onclick="addToGirone(\''+g.id+'\',\''+torneoId+'\')">➕ Aggiungi</button>';
+            h += '<div id="sqg_'+g.id+'">';
+            if (!sqGirone.length) h += '<p style="color:var(--gray-600);font-size:0.85rem;text-align:center">Vuoto</p>';
+            sqGirone.forEach(function(s){
+                h += '<div class="match-card" style="justify-content:space-between"><span><strong>'+esc(s.nome)+'</strong><span class="color-dot" style="background:'+(s.colore||'#C62828')+'"></span></span><button class="btn btn-danger btn-sm" onclick="removeFromGirone(\''+g.id+'\',\''+s.id+'\',\''+torneoId+'\')">✕</button></div>';
+            });
+            h += '</div></div>';
+        });
+        h += '</div><div class="text-center mt-1" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap"><button class="btn btn-success btn-lg" onclick="generatePartite(\''+torneoId+'\')">⚽ Genera Calendario</button><button class="btn btn-secondary btn-lg" onclick="addNewGirone(\''+torneoId+'\')">➕ Nuovo Girone</button></div>';
+        tc.innerHTML = h;
+    }
+
+    function editGironeNome(gironeId, nomeAttuale, torneoId) {
+        openModal('<div class="modal-header"><h3>✏️ Rinomina Girone</h3><button class="modal-close" onclick="closeModal()">✕</button></div><div class="form-group"><label>Nome</label><input type="text" class="form-control" id="nuovoNomeGirone" value="'+esc(nomeAttuale)+'"></div><button class="btn btn-primary btn-block" onclick="updateGironeNome(\''+gironeId+'\',\''+torneoId+'\')">💾 Salva</button>');
+    }
+
+    function updateGironeNome(gironeId, torneoId) {
+        const nome = document.getElementById('nuovoNomeGirone').value.trim();
+        if (!nome) return;
+        DB.execute('UPDATE gironi SET nome=? WHERE id=?', [nome, gironeId]);
+        closeModal(); toast('Girone rinominato! ✅', 'success'); loadGironiTab(torneoId);
+    }
+
+    function addNewGirone(torneoId) {
+        openModal('<div class="modal-header"><h3>➕ Nuovo Girone</h3><button class="modal-close" onclick="closeModal()">✕</button></div><div class="form-group"><label>Nome</label><input type="text" class="form-control" id="nomeNuovoGirone"></div><button class="btn btn-primary btn-block" onclick="createNewGirone(\''+torneoId+'\')">💾 Crea</button>');
+    }
+
+    function createNewGirone(torneoId) {
+        const nome = document.getElementById('nomeNuovoGirone').value.trim();
+        if (!nome) return;
+        const now = new Date().toISOString().replace('T', ' ').substring(0, 19);
+        DB.execute('INSERT INTO gironi (id, torneo_id, nome, created_at) VALUES (?,?,?,?)', [DB.newId(), torneoId, nome, now]);
+        closeModal(); toast('Girone creato!', 'success'); loadGironiTab(torneoId);
+    }
+
+    function addToGirone(gironeId, torneoId) {
+        const sid = document.getElementById('sel_'+gironeId).value;
+        if (!sid) { toast('Seleziona una squadra', 'error'); return; }
+        const exists = DB.query('SELECT 1 FROM girone_squadre WHERE girone_id=? AND squadra_id=?', [gironeId, sid]);
+        if (exists.length > 0) { toast('Già presente!', 'error'); return; }
+        DB.execute('INSERT INTO girone_squadre (girone_id, squadra_id) VALUES (?,?)', [gironeId, sid]);
+        toast('Aggiunta!', 'success'); loadGironiTab(torneoId);
+    }
+
+    function removeFromGirone(gironeId, squadraId, torneoId) {
+        DB.execute('DELETE FROM girone_squadre WHERE girone_id=? AND squadra_id=?', [gironeId, squadraId]);
+        toast('Rimossa', 'info'); loadGironiTab(torneoId);
+    }
+
+    // =====================================================
+    // GENERA PARTITE
+    // =====================================================
+    function generatePartite(torneoId) {
+        const gironi = DB.query('SELECT * FROM gironi WHERE torneo_id=?', [torneoId]);
+        if (!gironi.length) { toast('Nessun girone configurato!', 'error'); return; }
+        let totale = 0;
+        gironi.forEach(function(g) {
+            const gs = DB.query('SELECT squadra_id FROM girone_squadre WHERE girone_id=?', [g.id]);
+            const ids = gs.map(x => x.squadra_id);
+            if (ids.length < 2) { toast(g.nome + ' ha meno di 2 squadre', 'error'); return; }
+            DB.execute('DELETE FROM partite WHERE girone_id=?', [g.id]);
+            const now = new Date().toISOString().replace('T', ' ').substring(0, 19);
+            for (let i = 0; i < ids.length; i++) {
+                for (let j = i + 1; j < ids.length; j++) {
+                    DB.execute('INSERT INTO partite (id, girone_id, squadra_casa_id, squadra_ospite_id, created_at) VALUES (?,?,?,?,?)',
+                        [DB.newId(), g.id, ids[i], ids[j], now]);
+                    totale++;
+                }
+            }
+        });
+        if (totale > 0) toast('✅ Calendario generato! ' + totale + ' partite create', 'success');
+        else toast('⚠️ Nessuna partita generata.', 'error');
+        loadPartiteTab(torneoId);
+    }
+
+    // =====================================================
+    // TAB PARTITE
+    // =====================================================
+    function loadPartiteTab(torneoId) {
+        const tc = document.getElementById('tabContent');
+        const gironi = DB.query('SELECT * FROM gironi WHERE torneo_id=? ORDER BY nome', [torneoId]);
+        if (!gironi.length) { tc.innerHTML = '<p>Nessun girone.</p>'; return; }
+        let h = '';
+        gironi.forEach(function(g) {
+            const partite = DB.query(
+                'SELECT p.*, sc.nome as casa_nome, so.nome as ospite_nome FROM partite p ' +
+                'LEFT JOIN squadre sc ON p.squadra_casa_id=sc.id ' +
+                'LEFT JOIN squadre so ON p.squadra_ospite_id=so.id ' +
+                'WHERE p.girone_id=? ORDER BY p.created_at', [g.id]);
+            h += '<div class="card mb-1"><h3 style="color:var(--red-dark)">⚽ '+esc(g.nome)+'</h3>';
+            if (!partite.length) { h += '<p style="color:var(--gray-600)">Nessuna partita. Genera il calendario.</p>'; }
+            else {
+                partite.forEach(function(p){
+                    h += '<div class="match-card"><div class="match-team">'+(p.casa_nome||'???')+'</div><div style="text-align:center"><div class="match-score">'+(p.gol_casa!==null&&p.gol_casa!==undefined?p.gol_casa:'-')+' - '+(p.gol_ospite!==null&&p.gol_ospite!==undefined?p.gol_ospite:'-')+'</div><div class="match-info">';
+                    if (p.orario && p.orario !== '09:00') h += '<span class="time-badge">🕐 '+p.orario+'</span> ';
+                    if (p.campo) h += '<span class="field-badge">🏟️ '+esc(p.campo)+'</span>';
+                    h += '</div><button class="btn btn-secondary btn-sm mt-1" onclick="editPartitaDettagli(\''+p.id+'\',\''+torneoId+'\')">⚙️ Dettagli</button></div><div class="match-team">'+(p.ospite_nome||'???')+'</div></div>';
+                });
+                h += classificaHTML(g.id);
+            }
+            h += '</div>';
+        });
+        tc.innerHTML = h;
+    }
+
+    function editPartitaDettagli(partitaId, torneoId) {
+        const rows = DB.query(
+            'SELECT p.*, sc.nome as casa_nome, so.nome as ospite_nome FROM partite p ' +
+            'LEFT JOIN squadre sc ON p.squadra_casa_id=sc.id ' +
+            'LEFT JOIN squadre so ON p.squadra_ospite_id=so.id WHERE p.id=?', [partitaId]);
+        if (!rows.length) return;
+        const p = rows[0];
+        const campi = DB.query('SELECT * FROM campi WHERE torneo_id=? ORDER BY nome', [torneoId]);
+        let copts = '<option value="">-- Campo --</option>';
+        campi.forEach(function(c){ copts += '<option value="'+esc(c.nome)+'"'+(p.campo===c.nome?' selected':'')+'>'+esc(c.nome)+'</option>'; });
+        openModal('<div class="modal-header"><h3>⚙️ Dettagli Partita</h3><button class="modal-close" onclick="closeModal()">✕</button></div><p style="text-align:center;font-weight:700;margin-bottom:1rem">'+(p.casa_nome||'???')+' vs '+(p.ospite_nome||'???')+'</p><div class="form-group"><label>🕐 Orario</label><input type="time" class="form-control" id="orarioPartita" value="'+(p.orario||'09:00')+'"></div><div class="form-group"><label>🏟️ Campo</label><select class="form-control" id="campoPartita">'+copts+'</select></div><div class="form-group"><label>⚽ Risultato</label><div style="display:flex;gap:0.5rem;align-items:center"><input type="number" class="form-control" id="golCasaDet" placeholder="Casa" value="'+(p.gol_casa!==null&&p.gol_casa!==undefined?p.gol_casa:'')+'" min="0" style="width:70px"><span>-</span><input type="number" class="form-control" id="golOspiteDet" placeholder="Ospite" value="'+(p.gol_ospite!==null&&p.gol_ospite!==undefined?p.gol_ospite:'')+'" min="0" style="width:70px"></div></div><button class="btn btn-primary btn-block" onclick="savePartitaDettagli(\''+partitaId+'\',\''+torneoId+'\')">💾 Salva</button>');
+    }
+
+    function savePartitaDettagli(partitaId, torneoId) {
+        const orario = document.getElementById('orarioPartita').value;
+        const campo = document.getElementById('campoPartita').value;
+        const gc = document.getElementById('golCasaDet').value;
+        const go = document.getElementById('golOspiteDet').value;
+        const golCasa = gc !== '' ? parseInt(gc) : null;
+        const golOspite = go !== '' ? parseInt(go) : null;
+        DB.execute('UPDATE partite SET orario=?, campo=?, gol_casa=?, gol_ospite=? WHERE id=?',
+            [orario, campo, golCasa, golOspite, partitaId]);
+        closeModal(); toast('Salvato! ⚽', 'success'); loadPartiteTab(torneoId);
+    }
+
+    function classificaHTML(gironeId) {
+        const partite = DB.query(
+            'SELECT p.gol_casa, p.gol_ospite, sc.id as casa_id, sc.nome as casa_nome, so.id as ospite_id, so.nome as ospite_nome ' +
+            'FROM partite p LEFT JOIN squadre sc ON p.squadra_casa_id=sc.id LEFT JOIN squadre so ON p.squadra_ospite_id=so.id ' +
+            'WHERE p.girone_id=?', [gironeId]);
+        if (!partite.length) return '';
+        const cl = {};
+        partite.forEach(function(p){
+            if (p.gol_casa === null || p.gol_casa === undefined || p.gol_ospite === null || p.gol_ospite === undefined) return;
+            [{ id: p.casa_id, nome: p.casa_nome }, { id: p.ospite_id, nome: p.ospite_nome }].forEach(function(s){
+                if (!s.id) return;
+                if (!cl[s.id]) cl[s.id] = { nome: s.nome, punti:0, g:0, v:0, n:0, p:0, gf:0, gs:0 };
+            });
+            if (!p.casa_id || !p.ospite_id) return;
+            cl[p.casa_id].g++; cl[p.casa_id].gf += p.gol_casa; cl[p.casa_id].gs += p.gol_ospite;
+            cl[p.ospite_id].g++; cl[p.ospite_id].gf += p.gol_ospite; cl[p.ospite_id].gs += p.gol_casa;
+            if (p.gol_casa > p.gol_ospite) { cl[p.casa_id].v++; cl[p.casa_id].punti+=3; cl[p.ospite_id].p++; }
+            else if (p.gol_casa < p.gol_ospite) { cl[p.ospite_id].v++; cl[p.ospite_id].punti+=3; cl[p.casa_id].p++; }
+            else { cl[p.casa_id].n++; cl[p.casa_id].punti++; cl[p.ospite_id].n++; cl[p.ospite_id].punti++; }
+        });
+        const arr = Object.values(cl).sort(function(a,b){ return b.punti - a.punti || (b.gf-b.gs) - (a.gf-a.gs); });
+        if (!arr.length) return '';
+        let h = '<h4 style="margin-top:1rem">📊 Classifica</h4><div class="table-container"><table><thead><tr><th>Pos</th><th>Squadra</th><th>Pt</th><th>G</th><th>V</th><th>N</th><th>P</th><th>GF</th><th>GS</th></tr></thead><tbody>';
+        arr.forEach(function(s,i){ h += '<tr><td><strong>'+(i+1)+'°</strong></td><td>'+esc(s.nome)+'</td><td><strong>'+s.punti+'</strong></td><td>'+s.g+'</td><td>'+s.v+'</td><td>'+s.n+'</td><td>'+s.p+'</td><td>'+s.gf+'</td><td>'+s.gs+'</td></tr>'; });
+        h += '</tbody></table></div>';
+        return h;
+    }
+
+    // =====================================================
+    // TAB FINALI
+    // =====================================================
+    function loadFinaliTab(torneoId) {
+        const tc = document.getElementById('tabContent');
+        const fasi = DB.query('SELECT * FROM fasi_finali WHERE torneo_id=? ORDER BY ordine', [torneoId]);
+        let h = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:8px"><h3>🏆 Fasi Finali</h3><div style="display:flex;gap:4px;flex-wrap:wrap"><button class="btn btn-primary btn-sm" onclick="addFase(\''+torneoId+'\',\'quarti\')">➕ Quarti</button><button class="btn btn-primary btn-sm" onclick="addFase(\''+torneoId+'\',\'semifinale\')">➕ Semif.</button><button class="btn btn-primary btn-sm" onclick="addFase(\''+torneoId+'\',\'finale\')">➕ Finale</button><button class="btn btn-sm" style="background:#FF6F00;color:white;border:2px solid #E65100" onclick="generateGoldSilverBronze(\''+torneoId+'\')">🥇🥈🥉 Gold-Silver-Bronze</button></div></div>';
+        if (!fasi.length) { h += '<p style="color:var(--gray-600)">Nessuna fase finale.</p>'; }
+        else {
+            fasi.forEach(function(f) {
+                const pf = DB.query(
+                    'SELECT p.*, sc.nome as casa_nome, so.nome as ospite_nome FROM partite_finali p ' +
+                    'LEFT JOIN squadre sc ON p.squadra_casa_id=sc.id LEFT JOIN squadre so ON p.squadra_ospite_id=so.id ' +
+                    'WHERE p.fase_id=?', [f.id]);
+                h += '<div class="card mb-1"><div style="display:flex;justify-content:space-between;align-items:center"><h4 style="color:var(--red-dark)">'+esc(f.tipo).toUpperCase()+'</h4><button class="btn btn-danger btn-sm" onclick="deleteFase(\''+f.id+'\',\''+torneoId+'\')">🗑️</button></div>';
+                if (!pf.length) {
+                    h += '<p style="color:var(--gray-600)">Vuoto.</p><button class="btn btn-secondary btn-sm" onclick="addPartitaFinale(\''+f.id+'\',\''+torneoId+'\')">➕ Partita</button>';
+                } else {
+                    pf.forEach(function(p){
+                        h += '<div class="match-card"><div class="match-team">'+(p.casa_nome||'???')+'</div><div style="text-align:center"><div class="match-score">'+(p.gol_casa!==null&&p.gol_casa!==undefined?p.gol_casa:'-')+' - '+(p.gol_ospite!==null&&p.gol_ospite!==undefined?p.gol_ospite:'-')+'</div><div class="match-info">';
+                        if (p.orario) h += '<span class="time-badge">🕐 '+p.orario+'</span> ';
+                        if (p.campo) h += '<span class="field-badge">🏟️ '+esc(p.campo)+'</span>';
+                        h += '</div><button class="btn btn-secondary btn-sm mt-1" onclick="editFinaleDettagli(\''+p.id+'\',\''+torneoId+'\')">⚙️</button></div><div class="match-team">'+(p.ospite_nome||'???')+'</div></div>';
+                    });
+                    h += '<button class="btn btn-secondary btn-sm mt-1" onclick="addPartitaFinale(\''+f.id+'\',\''+torneoId+'\')">➕ Aggiungi Partita</button>';
+                }
+                h += '</div>';
+            });
+        }
+        tc.innerHTML = h;
+    }
+
+    function addFase(torneoId, tipo) {
+        const exists = DB.query('SELECT id FROM fasi_finali WHERE torneo_id=? AND tipo=?', [torneoId, tipo]);
+        if (exists.length) { toast('Fase già esistente', 'error'); return; }
+        const ord = tipo === 'quarti' ? 1 : tipo === 'semifinale' ? 2 : tipo === 'finale' ? 3 : 4;
+        DB.execute('INSERT INTO fasi_finali (id, torneo_id, tipo, ordine) VALUES (?,?,?,?)', [DB.newId(), torneoId, tipo, ord]);
+        toast('Fase aggiunta!', 'success'); loadFinaliTab(torneoId);
+    }
+
+    function deleteFase(id, torneoId) {
+        if (!confirm('Eliminare fase e partite?')) return;
+        DB.execute('DELETE FROM partite_finali WHERE fase_id=?', [id]);
+        DB.execute('DELETE FROM fasi_finali WHERE id=?', [id]);
+        toast('Eliminata', 'info'); loadFinaliTab(torneoId);
+    }
+
+    function addPartitaFinale(faseId, torneoId) {
+        const squadre = DB.query('SELECT * FROM squadre WHERE torneo_id=? ORDER BY nome', [torneoId]);
+        const campi = DB.query('SELECT * FROM campi WHERE torneo_id=? ORDER BY nome', [torneoId]);
+        let sopts = '', copts = '<option value="">-- Campo --</option>';
+        squadre.forEach(function(s){ sopts += '<option value="'+s.id+'">'+esc(s.nome)+'</option>'; });
+        campi.forEach(function(c){ copts += '<option value="'+esc(c.nome)+'">'+esc(c.nome)+'</option>'; });
+        openModal('<div class="modal-header"><h3>➕ Partita Finale</h3><button class="modal-close" onclick="closeModal()">✕</button></div><div class="form-group"><label>Casa</label><select class="form-control" id="sfcasa"><option value="">--</option>'+sopts+'</select></div><div class="form-group"><label>Ospite</label><select class="form-control" id="sfospite"><option value="">--</option>'+sopts+'</select></div><div class="form-group"><label>🕐 Orario</label><input type="time" class="form-control" id="sforario" value="15:00"></div><div class="form-group"><label>🏟️ Campo</label><select class="form-control" id="sfcampo">'+copts+'</select></div><button class="btn btn-primary btn-block" onclick="savePartitaFinale(\''+faseId+'\',\''+torneoId+'\')">💾 Salva</button>');
+    }
+
+    function savePartitaFinale(faseId, torneoId) {
+        const casa = document.getElementById('sfcasa').value;
+        const ospite = document.getElementById('sfospite').value;
+        if (!casa || !ospite) { toast('Seleziona entrambe le squadre', 'error'); return; }
+        if (casa === ospite) { toast('Squadre diverse!', 'error'); return; }
+        DB.execute('INSERT INTO partite_finali (id, fase_id, squadra_casa_id, squadra_ospite_id, orario, campo) VALUES (?,?,?,?,?,?)',
+            [DB.newId(), faseId, casa, ospite, document.getElementById('sforario').value || '15:00', document.getElementById('sfcampo').value || '']);
+        closeModal(); toast('Partita aggiunta!', 'success'); loadFinaliTab(torneoId);
+    }
+
+    function editFinaleDettagli(partitaId, torneoId) {
+        const rows = DB.query(
+            'SELECT p.*, sc.nome as casa_nome, so.nome as ospite_nome FROM partite_finali p ' +
+            'LEFT JOIN squadre sc ON p.squadra_casa_id=sc.id LEFT JOIN squadre so ON p.squadra_ospite_id=so.id WHERE p.id=?', [partitaId]);
+        if (!rows.length) return;
+        const p = rows[0];
+        const campi = DB.query('SELECT * FROM campi WHERE torneo_id=? ORDER BY nome', [torneoId]);
+        let copts = '<option value="">-- Campo --</option>';
+        campi.forEach(function(c){ copts += '<option value="'+esc(c.nome)+'"'+(p.campo===c.nome?' selected':'')+'>'+esc(c.nome)+'</option>'; });
+        openModal('<div class="modal-header"><h3>⚙️ Dettagli Finale</h3><button class="modal-close" onclick="closeModal()">✕</button></div><p style="text-align:center;font-weight:700;margin-bottom:1rem">'+(p.casa_nome||'???')+' vs '+(p.ospite_nome||'???')+'</p><div class="form-group"><label>🕐 Orario</label><input type="time" class="form-control" id="forario" value="'+(p.orario||'15:00')+'"></div><div class="form-group"><label>🏟️ Campo</label><select class="form-control" id="fcampo">'+copts+'</select></div><div class="form-group"><label>⚽ Risultato</label><div style="display:flex;gap:0.5rem;align-items:center"><input type="number" class="form-control" id="fgolcasa" placeholder="Casa" value="'+(p.gol_casa!==null&&p.gol_casa!==undefined?p.gol_casa:'')+'" min="0" style="width:70px"><span>-</span><input type="number" class="form-control" id="fgolospite" placeholder="Ospite" value="'+(p.gol_ospite!==null&&p.gol_ospite!==undefined?p.gol_ospite:'')+'" min="0" style="width:70px"></div></div><button class="btn btn-primary btn-block" onclick="saveFinaleDettagli(\''+partitaId+'\',\''+torneoId+'\')">💾 Salva</button>');
+    }
+
+    function saveFinaleDettagli(partitaId, torneoId) {
+        const orario = document.getElementById('forario').value;
+        const campo = document.getElementById('fcampo').value;
+        const gc = document.getElementById('fgolcasa').value;
+        const go = document.getElementById('fgolospite').value;
+        const golCasa = gc !== '' ? parseInt(gc) : null;
+        const golOspite = go !== '' ? parseInt(go) : null;
+        DB.execute('UPDATE partite_finali SET orario=?, campo=?, gol_casa=?, gol_ospite=? WHERE id=?',
+            [orario, campo, golCasa, golOspite, partitaId]);
+        closeModal(); toast('Salvato!', 'success'); loadFinaliTab(torneoId);
+    }
+
+    function generateGoldSilverBronze(torneoId) {
+        const gironi = DB.query('SELECT * FROM gironi WHERE torneo_id=?', [torneoId]);
+        const classifiche = [];
+        gironi.forEach(function(g) {
+            const partite = DB.query(
+                'SELECT p.gol_casa, p.gol_ospite, sc.id as casa_id, so.id as ospite_id FROM partite p ' +
+                'LEFT JOIN squadre sc ON p.squadra_casa_id=sc.id LEFT JOIN squadre so ON p.squadra_ospite_id=so.id ' +
+                'WHERE p.girone_id=?', [g.id]);
+            const cl = {};
+            partite.forEach(function(p){
+                if (p.gol_casa===null||p.gol_ospite===null) return;
+                const squadreGirone = DB.query('SELECT s.id, s.nome FROM squadre s JOIN girone_squadre gs ON s.id=gs.squadra_id WHERE gs.girone_id=?', [g.id]);
+                squadreGirone.forEach(function(s){ if (!cl[s.id]) cl[s.id] = { id: s.id, nome: s.nome, punti:0, gf:0, gs:0 }; });
+                if (p.casa_id) { cl[p.casa_id] = cl[p.casa_id] || { id: p.casa_id, nome: '', punti:0, gf:0, gs:0 }; cl[p.casa_id].gf += p.gol_casa; cl[p.casa_id].gs += p.gol_ospite; }
+                if (p.ospite_id) { cl[p.ospite_id] = cl[p.ospite_id] || { id: p.ospite_id, nome: '', punti:0, gf:0, gs:0 }; cl[p.ospite_id].gf += p.gol_ospite; cl[p.ospite_id].gs += p.gol_casa; }
+                if (p.gol_casa > p.gol_ospite && p.casa_id) cl[p.casa_id].punti += 3;
+                else if (p.gol_casa < p.gol_ospite && p.ospite_id) cl[p.ospite_id].punti += 3;
+                else { if(p.casa_id) cl[p.casa_id].punti++; if(p.ospite_id) cl[p.ospite_id].punti++; }
+            });
+            classifiche.push(Object.values(cl).sort(function(a,b){ return b.punti-a.punti || (b.gf-b.gs)-(a.gf-a.gs); }));
+        });
+        const prime = classifiche.map(c => c[0]).filter(Boolean);
+        const seconde = classifiche.map(c => c[1]).filter(Boolean);
+        const terze = classifiche.map(c => c[2]).filter(Boolean);
+        if (prime.length < 2) { toast('Servono almeno 2 gironi con classifiche', 'error'); return; }
+        DB.execute('DELETE FROM partite_finali WHERE fase_id IN (SELECT id FROM fasi_finali WHERE torneo_id=?)', [torneoId]);
+        DB.execute('DELETE FROM fasi_finali WHERE torneo_id=?', [torneoId]);
+        const fGoldId = DB.newId();
+        DB.execute('INSERT INTO fasi_finali (id, torneo_id, tipo, ordine) VALUES (?,?,?,?)', [fGoldId, torneoId, 'Girone Gold', 1]);
+        for (let i = 0; i < prime.length; i++) for (let j = i+1; j < prime.length; j++)
+            DB.execute('INSERT INTO partite_finali (id, fase_id, squadra_casa_id, squadra_ospite_id, orario) VALUES (?,?,?,?,?)', [DB.newId(), fGoldId, prime[i].id, prime[j].id, '15:00']);
+        if (seconde.length >= 2) {
+            const fSilverId = DB.newId();
+            DB.execute('INSERT INTO fasi_finali (id, torneo_id, tipo, ordine) VALUES (?,?,?,?)', [fSilverId, torneoId, 'Girone Silver', 2]);
+            for (let i = 0; i < seconde.length; i++) for (let j = i+1; j < seconde.length; j++)
+                DB.execute('INSERT INTO partite_finali (id, fase_id, squadra_casa_id, squadra_ospite_id, orario) VALUES (?,?,?,?,?)', [DB.newId(), fSilverId, seconde[i].id, seconde[j].id, '14:00']);
+        }
+        if (terze.length >= 2) {
+            const fBronzeId = DB.newId();
+            DB.execute('INSERT INTO fasi_finali (id, torneo_id, tipo, ordine) VALUES (?,?,?,?)', [fBronzeId, torneoId, 'Girone Bronze', 3]);
+            for (let i = 0; i < terze.length; i++) for (let j = i+1; j < terze.length; j++)
+                DB.execute('INSERT INTO partite_finali (id, fase_id, squadra_casa_id, squadra_ospite_id, orario) VALUES (?,?,?,?,?)', [DB.newId(), fBronzeId, terze[i].id, terze[j].id, '13:00']);
+        }
+        toast('Fasi Gold-Silver-Bronze generate! 🏆', 'success');
+        loadFinaliTab(torneoId);
+    }
+
+    // =====================================================
+    // ELIMINA TORNEO
+    // =====================================================
+    function deleteTorneo(id) {
+        if (!confirm('⚠️ Eliminare definitivamente questo torneo?')) return;
+        // Cascade via SQLite foreign keys
+        const gironi = DB.query('SELECT id FROM gironi WHERE torneo_id=?', [id]);
+        gironi.forEach(function(g) {
+            DB.execute('DELETE FROM girone_squadre WHERE girone_id=?', [g.id]);
+            DB.execute('DELETE FROM partite WHERE girone_id=?', [g.id]);
+        });
+        const fasi = DB.query('SELECT id FROM fasi_finali WHERE torneo_id=?', [id]);
+        fasi.forEach(function(f) {
+            DB.execute('DELETE FROM partite_finali WHERE fase_id=?', [f.id]);
+        });
+        DB.execute('DELETE FROM gironi WHERE torneo_id=?', [id]);
+        DB.execute('DELETE FROM fasi_finali WHERE torneo_id=?', [id]);
+        DB.execute('DELETE FROM squadre WHERE torneo_id=?', [id]);
+        DB.execute('DELETE FROM campi WHERE torneo_id=?', [id]);
+        DB.execute('DELETE FROM tornei WHERE id=?', [id]);
+        toast('Eliminato', 'info');
+        loadDashboard();
+    }
+
+    // =====================================================
+    // UTILITY — escape HTML
+    // =====================================================
+    function esc(str) {
+        if (!str) return '';
+        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // =====================================================
+    // AVVIO
+    // =====================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof window.AndroidDB === 'undefined') {
+            document.getElementById('mainContainer').innerHTML =
+                '<div class="card text-center" style="padding:3rem"><h2>⚠️ Errore</h2><p>Questo file deve essere eseguito dentro l\'app Android, non in un browser normale.</p></div>';
+            return;
+        }
+        if (sessionStorage.getItem('admin_logged') === 'true') {
+            showDashboard();
+        } else {
+            showLoginScreen();
+        }
+    });
+    </script>
+</body>
+</html>
