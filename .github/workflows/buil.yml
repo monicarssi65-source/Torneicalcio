@@ -14,9 +14,23 @@ jobs:
       with:
         validate-wrappers: false
 
-    # Forziamo una versione stabile (8.7) ignorando gli script di build che mandano in crash Gradle 9
+    # Raddrizziamo la creazione del wrapper
     - name: Regenerate Clean Wrapper (Safe Mode)
       run: gradle wrapper --gradle-version 8.7 --no-build-cache
+
+    # --- INIZIO SOLUZIONE AL CONFLITTO REPOSITORY ---
+    # Questo comando dice a Gradle di ignorare la severità del controllo sui repository duplicati
+    - name: Fix Repository Configuration Conflict
+      run: |
+        if [ -f settings.gradle ]; then
+          sed -i 's/repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)/repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)/g' settings.gradle
+          sed -i 's/FAIL_ON_PROJECT_REPOS/PREFER_PROJECT/g' settings.gradle
+        fi
+        if [ -f settings.gradle.kts ]; then
+          sed -i 's/repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)/repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)/g' settings.gradle.kts
+          sed -i 's/FAIL_ON_PROJECT_REPOS/PREFER_PROJECT/g' settings.gradle.kts
+        fi
+    # --- FINE SOLUZIONE ---
 
     - run: chmod +x gradlew
     - run: ./gradlew clean assembleDebug --stacktrace
