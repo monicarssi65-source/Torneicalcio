@@ -9,17 +9,15 @@ jobs:
       with: { java-version: '17', distribution: 'temurin' }
     - uses: android-actions/setup-android@v3
     
-    # 1. Configura Gradle usando i binari ufficiali di GitHub (questo non fallirà)
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
       with:
         validate-wrappers: false
 
-    # 2. Questo comando genera un file gradle-wrapper.jar nuovo e valido direttamente sul server
-    - name: Regenerate Missing Gradle Wrapper JAR
-      run: gradle wrapper
+    # Forziamo una versione stabile (8.7) ignorando gli script di build che mandano in crash Gradle 9
+    - name: Regenerate Clean Wrapper (Safe Mode)
+      run: gradle wrapper --gradle-version 8.7 --no-build-cache
 
-    # 3. Ora il file esiste e la build può partire regolarmente
     - run: chmod +x gradlew
     - run: ./gradlew clean assembleDebug --stacktrace
     
