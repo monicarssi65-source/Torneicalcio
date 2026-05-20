@@ -9,9 +9,11 @@ jobs:
       with: { java-version: '17', distribution: 'temurin' }
     - uses: android-actions/setup-android@v3
     
-    # Questo step ufficiale configura Gradle e scarica i file del wrapper mancanti
+    # Ecco dove inserire il blocco "with" inserendo due spazi in più rispetto a "uses"
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
+      with:
+        validate-wrappers: false
 
     - run: chmod +x gradlew
     - run: ./gradlew clean assembleDebug --stacktrace
