@@ -1,5 +1,4 @@
 buildscript {
-    // Aggiorna Kotlin a una versione compatibile con Gradle 8.7 (es. 1.9.24 o superiore)
     ext.kotlin_version = '1.9.24'
     
     repositories { 
@@ -8,14 +7,13 @@ buildscript {
     }
     
     dependencies {
-        // Aggiorna l'Android Gradle Plugin (AGP) ad almeno 8.5.2 per supportare Gradle 8.7
         classpath 'com.android.tools.build:gradle:8.5.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 allprojects {
-    // Rimane pulito senza repository in linea con settings.gradle
+    // Lasciato vuoto per rispettare la gestione centralizzata di settings.gradle
 }
 
 task clean(type: Delete) { 
