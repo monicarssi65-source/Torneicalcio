@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
-DEFAULT_JVM_OPTS='"-Xmx64m" "-Xms64m"'
+DEFAULT_JVM_OPTS=""
 APP_BASE_NAME=`basename "$0"`
 APP_HOME=`pwd`
 if [ -n "$JAVA_HOME" ] ; then
