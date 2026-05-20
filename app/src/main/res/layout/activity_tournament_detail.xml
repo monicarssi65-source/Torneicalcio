@@ -1,10 +1,49 @@
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/bg_grad">
-    <com.google.android.material.appbar.AppBarLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@color/red">
-        <androidx.appcompat.widget.Toolbar android:id="@+id/toolbar" android:layout_width="match_parent" android:layout_height="?attr/actionBarSize" app:titleTextColor="@android:color/white" app:navigationIcon="@android:drawable/ic_menu_revert"/>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:app="http://schemas.android.com/apk/res-auto" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:background="@drawable/bg_grad">
+    
+    <com.google.android.material.appbar.AppBarLayout 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:background="@color/red">
+        
+        <androidx.appcompat.widget.Toolbar 
+            android:id="@+id/toolbar" 
+            android:layout_width="match_parent" 
+            android:layout_height="?attr/actionBarSize" 
+            app:titleTextColor="@android:color/white" 
+            app:navigationIcon="@android:drawable/ic_menu_revert"/>
+            
     </com.google.android.material.appbar.AppBarLayout>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" app:layout_behavior="@string/appbar_scrolling_view_behavior" android:padding="8dp">
-        <Button android:id="@+id/btnMatches" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Vedi Partite & Calendario"/>
-        <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv" android:layout_width="match_parent" android:layout_height="match_parent"/>
-        <TextView android:id="@+id/empty" android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:text="Nessuna squadra" android:visibility="gone"/>
+    
+    <LinearLayout 
+        android:layout_width="match_parent" 
+        android:layout_height="match_parent" 
+        android:orientation="vertical" 
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" 
+        android:padding="8dp">
+        
+        <!-- Sostituito '&' con '&amp;' per correggere l'errore XML -->
+        <Button 
+            android:id="@+id/btnMatches" 
+            android:layout_width="match_parent" 
+            android:layout_height="wrap_content" 
+            android:text="Vedi Partite &amp; Calendario"/>
+            
+        <androidx.recyclerview.widget.RecyclerView 
+            android:id="@+id/rv" 
+            android:layout_width="match_parent" 
+            android:layout_height="match_parent"/>
+            
+        <TextView 
+            android:id="@+id/empty" 
+            android:layout_width="match_parent" 
+            android:layout_height="match_parent" 
+            android:gravity="center" 
+            android:text="Nessuna squadra" 
+            android:visibility="gone"/>
+            
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
